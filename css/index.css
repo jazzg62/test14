@@ -178,6 +178,7 @@ body {
 .popup{
     min-height: 40vh;
     width: 80vw;
+    padding-top: 0.7rem;
 }
 .log {
     max-height: 80vh;
