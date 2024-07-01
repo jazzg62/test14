@@ -34,14 +34,6 @@ function delCookie(name) {
     if (cval != null) document.cookie = name + "=" + cval + "; path=/;expires=" + exp.toGMTString();
 }
 
-// function checkLogin(state){
-//     if(state == 0){
-//         location.href = WapSiteUrl+'/page/login/index.html';
-//         return false;
-//     }
-//     return true;
-// }
-
 function formatDate(date, fmt) {
     var o = {
         "M+": date.getMonth() + 1, //月份
@@ -90,21 +82,6 @@ function generateUnionID() {
     return res.join("");
 }
 
-function transXFLX(val) {
-    switch (val) {
-        case "SM_WXPAY":
-            return "扫码微信支付";
-        case "SM_ALIPAY":
-            return "扫码支付宝支付";
-        case "SM_QLB":
-            return "扫码红包支付";
-        case "SM_CZ":
-            return "扫码充值支付";
-        default:
-            return "微信支付";
-    }
-}
-
 function toFixed2(val) {
     try {
         return Number(val).toFixed(2);
@@ -112,22 +89,4 @@ function toFixed2(val) {
         console.warn(e);
         return 0;
     }
-}
-
-function loadScript(name='', url=''){
-    var wx_url = '//res.wx.qq.com/open/js/jweixin-1.6.0.js';
-    var zfb_url = 'https://appx/web-view.min.js';
-    if(name && name == 'wx'){
-        url = wx_url;
-        if(window['wx']) return ;
-    }else if(name && name == 'zfb'){
-        url = zfb_url;
-        if(window['my'])  return ;
-    }
-    return new Promise(resolve=>{
-        let script = document.createElement('script');
-        document.body.append(script);
-        script.src = url;
-        script.onload = resolve;
-    })
 }

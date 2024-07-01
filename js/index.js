@@ -71,6 +71,11 @@ turnplate.restaraunts = [
 ];
 
 let uniqueId = getQueryString('uniqueId')
+if(uniqueId){
+    addCookie('uniqueId', uniqueId);
+}else{
+    uniqueId = getCookie('uniqueId');
+}
 
 
 var vvue = new Vue({
