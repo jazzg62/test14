@@ -72,30 +72,37 @@ turnplate.restaraunts = [
 
 let uniqueId = getQueryString('uniqueId')
 
-uniqueId = 1;
 
 var vvue = new Vue({
     el: document.getElementById("app"),
     data: {
         turnplate_count: 3, // 抽奖次数
         show: false,
+        record_list:[]
     },
     mounted() {
         this.getPrizeList();
+        this.getRecord();
     },
     methods: {
-        renderTurnplate(){
-            var list = [];
-            for (var v of turnplate.restaraunts) {
-                list.push(getImg(v.img));
-            }
-            Promise.all(list).then((result_list) => {
-                for (var i in turnplate.restaraunts) {
-                    turnplate.restaraunts[i]["img_object"] = result_list[i];
+        showRecord(){
+            if (turnplate.bRotate) return;
+            this.show = true;
+        },
+        getRecord(){
+            this.record_list = [];
+            $.ajax({
+                type: 'post',
+                url: host + '/award/api/getRecordList',
+                data: {
+                    uniqueId
+                },
+                dataType: 'json',
+                success: (res) => {
+                    console.log(res);
+                    this.record_list = res.reverse();
                 }
-                drawRouletteWheel();
-            });
-            document.getElementById('app').style.visibility = 'visible';
+            })
         },
         getPrizeList() {
             $.ajax({
@@ -120,19 +127,50 @@ var vvue = new Vue({
                 }
             })
         },
+        renderTurnplate(){
+            var list = [];
+            for (var v of turnplate.restaraunts) {
+                list.push(getImg(v.img));
+            }
+            Promise.all(list).then((result_list) => {
+                for (var i in turnplate.restaraunts) {
+                    turnplate.restaraunts[i]["img_object"] = result_list[i];
+                }
+                drawRouletteWheel();
+            });
+            document.getElementById('app').style.visibility = 'visible';
+        },
         // 点击抽奖事件
         getPrize() {
             if (turnplate.bRotate) return;
             turnplate.bRotate = true;
 
-            let res_prize_id = 1
-            for (var i = 0; i < turnplate.restaraunts.length; i++) {
-                if (turnplate.restaraunts[i]['id'] == res_prize_id) {
-                    console.log(i, turnplate.restaraunts[i],)
-                    this.rotate(i);
-                    break;
+            $.ajax({
+                type: 'get',
+                url: host + '/award/api/getAwardByUniqueId',
+                data: {
+                    uniqueId
+                },
+                // contentType:'application/json',
+                dataType: 'json',
+                success: (res) => {
+                    let res_prize_id =  res.data;
+                    if(Array.isArray(res_prize_id)){
+                        vant.Toast(res.msg);
+                        turnplate.bRotate = false;
+                        return ;
+                    }
+                    // 重新获取记录
+                    this.getRecord();
+                    for (var i = 0; i < turnplate.restaraunts.length; i++) {
+                        if (turnplate.restaraunts[i]['id'] == res_prize_id) {
+                            console.log(i, turnplate.restaraunts[i],)
+                            this.rotate(i);
+                            break;
+                        }
+                    }
                 }
-            }
+            })
         },
         rotate(index) {
             if (this.turnplate_count == 0) {
