@@ -71,9 +71,9 @@ turnplate.restaraunts = [
 ];
 
 let uniqueId = getQueryString('uniqueId')
-if(uniqueId){
+if (uniqueId) {
     addCookie('uniqueId', uniqueId);
-}else{
+} else {
     uniqueId = getCookie('uniqueId');
 }
 
@@ -83,10 +83,10 @@ var vvue = new Vue({
     data: {
         turnplate_count: 3, // 抽奖次数
         show: false,
-        record_list:[],
-        prize_list:[],
-        user:{
-            userName:''
+        record_list: [],
+        prize_list: [],
+        user: {
+            userName: ''
         }
     },
     mounted() {
@@ -95,11 +95,11 @@ var vvue = new Vue({
         this.getRecord();
     },
     methods: {
-        showRecord(){
+        showRecord() {
             if (turnplate.bRotate) return;
             this.show = true;
         },
-        getUserInfo(){
+        getUserInfo() {
             this.record_list = [];
             $.ajax({
                 type: 'get',
@@ -114,7 +114,7 @@ var vvue = new Vue({
                 }
             })
         },
-        getRecord(){
+        getRecord() {
             this.record_list = [];
             $.ajax({
                 type: 'post',
@@ -142,18 +142,34 @@ var vvue = new Vue({
                     let list = res.map(item => {
                         return {
                             id: item.id,
-                            name: item.shopName,
-                            color: ++idx % 2 == 0 ? "#FFECF0" : '#ffffff',
+                            name: item.descstr || '',
+                            color: '',
                             img: "",
                             img_object: undefined,
                         }
                     });
-                    turnplate.restaraunts = list;
+                    console.log(list);
+                    let _list = [];
+                    for (let i = 0; i < list.length; i++) {
+                        let flag = true;
+                        for (let j = 0; j < i; j++) {
+                            if (list[i].name == list[j].name) {
+                                flag = false;
+                                break;
+                            }
+                        }
+                        if (flag)
+                            _list.push(list[i])
+                    }
+                    for (let i in _list) {
+                        _list[i].color = Number(i) % 2 == 0 ? "#FFECF0" : '#ffffff'
+                    }
+                    turnplate.restaraunts = _list;
                     this.renderTurnplate();
                 }
             })
         },
-        renderTurnplate(){
+        renderTurnplate() {
             var list = [];
             for (var v of turnplate.restaraunts) {
                 list.push(getImg(v.img));
@@ -168,9 +184,9 @@ var vvue = new Vue({
         },
         // 点击抽奖事件
         getPrize() {
-            if(this.turnplate_count == 0){
+            if (this.turnplate_count == 0) {
                 vant.Toast('抽奖次数已用完!');
-                return ;
+                return;
             }
             if (turnplate.bRotate) return;
             turnplate.bRotate = true;
@@ -183,19 +199,24 @@ var vvue = new Vue({
                 },
                 // contentType:'application/json',
                 dataType: 'json',
-                success: (res) => {
-                    let res_prize_id =  res.data;
-                    if(Array.isArray(res_prize_id)){
+                success: async (res) => {
+                    let res_prize_id = res.data;
+                    if (Array.isArray(res_prize_id)) {
                         vant.Toast(res.msg);
                         turnplate.bRotate = false;
-                        return ;
+                        return;
                     }
                     // 重新获取记录
                     this.getRecord();
-                    for (var i = 0; i < turnplate.restaraunts.length; i++) {
-                        if (turnplate.restaraunts[i]['id'] == res_prize_id) {
-                            console.log(i, turnplate.restaraunts[i],)
-                            this.rotate(i);
+                    for (var i = 0; i < this.prize_list.length; i++) {
+                        if (this.prize_list[i]['id'] == res_prize_id) {
+                            console.log(i, this.prize_list[i])
+                            await this.rotate(i);
+                            turnplate.bRotate = false;
+                            vant.Dialog.alert({
+                                title: '提示',
+                                message: '恭喜获得 ' + this.prize_list[i].descstr + ' - ' + this.prize_list[i].shopName
+                            })
                             break;
                         }
                     }
@@ -210,43 +231,32 @@ var vvue = new Vue({
                 })
                 return;
             }
-            this.turnplate_count = this.turnplate_count - 1;
-            var obj = turnplate.restaraunts[index];
-            index = index + 1;
-            var angles = index * (360 / turnplate.restaraunts.length) - 360 / (turnplate.restaraunts.length * 2);
-            if (angles < 270) {
-                angles = 270 - angles;
-            } else {
-                angles = 360 - angles + 270;
-            }
-            $("#wheel_canvas").stopRotate();
-            $("#wheel_canvas").rotate({
-                angle: 0,
-                animateTo: angles + 3600,
-                duration: 5000,
-                // animateTo: angles + 3600,
-                // duration: 1000,
-                callback: () => {
-                    // this.output = "output:" + obj.name;
-                    // console.log(this.output);
-                    turnplate.bRotate = false;
-                    if (obj.name == '谢谢参与') {
-                        vant.Dialog.alert({
-                            title: '提示',
-                            message: '谢谢参与',
-                        }).then(() => {
-                            // on close
-                        });
-                        return;
-                    }
-                    vant.Dialog.alert({
-                        title: '提示',
-                        message: '恭喜获得' + obj.name,
-                    }).then(() => {
-                        // on close
-                    });
-                },
-            });
+            return new Promise(resolve => {
+                this.turnplate_count = this.turnplate_count - 1;
+                var obj = turnplate.restaraunts[index];
+                index = index + 1;
+                var angles = index * (360 / turnplate.restaraunts.length) - 360 / (turnplate.restaraunts.length * 2);
+                if (angles < 270) {
+                    angles = 270 - angles;
+                } else {
+                    angles = 360 - angles + 270;
+                }
+                $("#wheel_canvas").stopRotate();
+                $("#wheel_canvas").rotate({
+                    angle: 0,
+                    animateTo: angles + 3600,
+                    duration: 5000,
+                    // animateTo: angles + 3600,
+                    // duration: 1000,
+                    callback: () => {
+                        // this.output = "output:" + obj.name;
+                        // console.log(this.output);
+                        turnplate.bRotate = false;
+                        resolve();
+                    },
+                });
+
+            })
         }
     },
 });
