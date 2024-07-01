@@ -1,0 +1,224 @@
+/* 支付成功页样式 */
+html,
+body {
+    font-size: 0.65rem;
+}
+
+html,
+body {
+    background-color: #D7262C;
+    /* background: url('./images/5019.png_300.png') #FB3A6A; */
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    background: url('../images/task_draw_reward_default_bg.png');
+    background-size: 100%;
+    min-height: 100vh;
+}
+
+.bg1 {
+    position: absolute;
+}
+
+.login-info {
+    font-size: 0.6rem;
+    padding-left: 0.5rem;
+    padding: .5rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.login-info .name {
+    color: white;
+}
+
+.login-info .log-list {
+    margin-left: auto;
+    background-color: white;
+    color: #D7262C;
+    padding: 0.1rem .5rem;
+    border-radius: 0.15rem;
+}
+
+.title {
+    align-self: center;
+    text-align: center;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: bold;
+    position: relative;
+    margin: 0 auto;
+    margin-top: 1.5rem;
+    text-shadow: .1rem .1rem .1rem #555;
+}
+
+.title::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 1.5em;
+    height: 0.17rem;
+    background-color: white;
+    right: calc(100% + 0.2em);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.title::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 1.5em;
+    height: 0.17rem;
+    background-color: white;
+    left: calc(100% + 0.2em);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* 大转盘样式 */
+.turnplate-wrap {
+    width: 95vw;
+    height: 95vw;
+    display: flex;
+    overflow: hidden;
+    margin: 0 auto;
+    margin-top: 1rem;
+}
+
+.turnplate-wrap .turnplate {
+    display: block;
+    width: 100%;
+    position: relative;
+    background-image: url("../images/block-img.png");
+    background-size: 100% 100%;
+}
+
+.turnplate-wrap .turnplate canvas.item {
+    width: 100%;
+}
+
+.turnplate-wrap .turnplate img.pointer {
+    position: absolute;
+    width: 35.6%;
+    height: 46.5%;
+    left: 50%;
+    top: 20.9%;
+    transform: translateX(-50%);
+}
+
+.turnplate-wrap .turnplate .desc {
+    position: absolute;
+    width: 30.5%;
+    height: 30.5%;
+    left: 34.7%;
+    top: 36%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+
+.turnplate-wrap .turnplate .desc h3 {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.turnplate-wrap .turnplate .desc p {
+    font-size: 0.55rem;
+    margin-top: 0.1rem;
+}
+
+
+.hint {
+    margin: 1rem;
+    background-color: white;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+}
+
+.hint .hint-title {
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin: auto;
+    /* margin-bottom: .5rem; */
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid #efefef;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: #D7262C;
+}
+.hint .hint-title .img-ds {
+    width: .8rem;
+    margin: 0 .5rem;
+}
+
+.hint .hint-title .img {
+    width: 8rem;
+}
+
+.hint .hint-item {
+    margin-top: 0.25rem;
+    color: #555;
+    font-size: 0.6rem;
+}
+
+.popup{
+    min-height: 40vh;
+    width: 80vw;
+}
+.log {
+    max-height: 80vh;
+    padding: 0.5rem;
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.log .log-title {
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: .5rem;
+    /* padding-bottom: 0.5rem;
+    border-bottom: 1px solid #efefef; */
+}
+
+.log .item {
+    margin-top: 0.35rem;
+    display: flex;
+}
+
+.log .item .fl{
+    color: #333 !important;
+    /* font-weight: bold; */
+    font-size: 0.65rem;
+}
+.log .item .name {
+    width: 50%;
+    text-align: center;
+    display: block;
+    color: #777;
+    font-size: 0.6rem;
+}
+
+.log .item .time {
+    width: 50%;
+    text-align: center;
+    display: block;
+    color: #777;
+    font-size: 0.6rem;
+}

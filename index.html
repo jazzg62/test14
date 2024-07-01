@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,minimum-scale=1" />
+    <title>转盘抽奖</title>
+    <link rel="icon" href="data:image/ico;base64,aWNv">
+    <link rel="stylesheet" type="text/css" href="css/vant.index.css" />
+    <link rel="stylesheet" type="text/css" href="css/base.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+</head>
+
+<body>
+    <div class="content" id="app" style="visibility: hidden;">
+        <!-- <img class="bg1" src="./images/5019.png_300.png" alt=""> -->
+        <div class="login-info">
+            欢迎你，
+            <span class="name">张三</span>
+
+            <span class="log-list" @click="show=true">我的抽奖记录</span>
+        </div>
+
+        <div class="title">幸运大抽奖</div>
+
+        <div class="turnplate-wrap">
+            <div class="turnplate">
+                <canvas class="item" id="wheel_canvas"></canvas>
+                <img class="pointer" src="./images/turnplate-pointer.png" />
+                <div class="desc" @click="getPrize">
+                    <h3>抽奖</h3>
+                    <p>剩余{{turnplate_count}}次</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="hint">
+            <div class="hint-title">
+                <img class="img" src="./images/task_draw_reward_rule_title_img.png" alt="">
+            </div>
+            <p class="hint-item">1. 活动时间：2024年7月1日-2024年8月31日</p>
+            <p class="hint-item">2. 活动规则2活动规则2活动规则2</p>
+            <p class="hint-item">3. 活动规则3活动规则3活动规则3</p>
+        </div> -->
+
+        <div class="hint">
+            <div class="hint-title">
+                <img src="./images/dashed.png" alt="" class="img-ds">
+                    奖池内容
+                <img src="./images/dashed.png" alt="" class="img-ds">
+            </div>
+
+            <div class="log">
+                <div class="item">
+                    <span class="name fl">奖品名称</span>
+                    <span class="time fl">奖品内容</span>
+                </div>
+
+                <div class="item">
+                    <span class="name">红包888元</span>
+                    <span class="time">2024-08-05 12:37</span>
+                </div>
+                <div class="item">
+                    <span class="name">谢谢参与</span>
+                    <span class="time">2024-07-05 14:37</span>
+                </div>
+                <div class="item">
+                    <span class="name">谢谢参与</span>
+                    <span class="time">2024-06-05 19:37</span>
+                </div>
+            </div>
+            <!-- <p class="hint-item">1. 活动时间：2024年7月1日-2024年8月31日</p>
+            <p class="hint-item">2. 活动规则2活动规则2活动规则2</p>
+            <p class="hint-item">3. 活动规则3活动规则3活动规则3</p> -->
+        </div>
+        
+        <van-popup class="popup" v-model="show" closeable>
+            <div class="log">
+                <div class="log-title">
+                    抽奖记录
+                </div>
+                <div class="item">
+                    <span class="name fl">奖品名称</span>
+                    <span class="time fl">抽奖时间</span>
+                </div>
+
+                <div class="item">
+                    <span class="name">红包888元</span>
+                    <span class="time">2024-08-05 12:37</span>
+                </div>
+                <div class="item">
+                    <span class="name">谢谢参与</span>
+                    <span class="time">2024-07-05 14:37</span>
+                </div>
+                <div class="item">
+                    <span class="name">谢谢参与</span>
+                    <span class="time">2024-06-05 19:37</span>
+                </div>
+            </div>
+        </van-popup>
+    </div>
+
+    <script type="text/javascript" src="./js/vue.min.js"></script>
+    <script type="text/javascript" src="./js/vant.min.js"></script>
+    <script type="text/javascript" src="./js/zepto.min.js"></script>
+    <script type="text/javascript" src="./js/zepto.awardRotate.js"></script>
+    <!-- <script type="text/javascript" src="./js/common.js"></script> -->
+    <script type="text/javascript" src="./js/index.js"></script>
+</body>
+
+</html>
