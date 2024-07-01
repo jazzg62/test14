@@ -105,7 +105,8 @@ var vvue = new Vue({
                 type: 'get',
                 url: host + '/award/api/getUserInfo',
                 data: {
-                    uniqueId
+                    uniqueId,
+                    xhr_id: generateUnionID()
                 },
                 dataType: 'json',
                 success: (res) => {
@@ -133,7 +134,9 @@ var vvue = new Vue({
             $.ajax({
                 type: 'get',
                 url: host + '/award/api/getAllShop',
-                data: {},
+                data: {
+                    xhr_id: generateUnionID()
+                },
                 dataType: 'json',
                 success: (res) => {
                     console.log(res);
@@ -195,7 +198,8 @@ var vvue = new Vue({
                 type: 'get',
                 url: host + '/award/api/getAwardByUniqueId',
                 data: {
-                    uniqueId
+                    uniqueId,
+                    xhr_id: generateUnionID()
                 },
                 // contentType:'application/json',
                 dataType: 'json',
