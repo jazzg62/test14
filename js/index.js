@@ -78,9 +78,14 @@ var vvue = new Vue({
     data: {
         turnplate_count: 3, // 抽奖次数
         show: false,
-        record_list:[]
+        record_list:[],
+        prize_list:[],
+        user:{
+            userName:''
+        }
     },
     mounted() {
+        this.getUserInfo();
         this.getPrizeList();
         this.getRecord();
     },
@@ -88,6 +93,21 @@ var vvue = new Vue({
         showRecord(){
             if (turnplate.bRotate) return;
             this.show = true;
+        },
+        getUserInfo(){
+            this.record_list = [];
+            $.ajax({
+                type: 'get',
+                url: host + '/award/api/getUserInfo',
+                data: {
+                    uniqueId
+                },
+                dataType: 'json',
+                success: (res) => {
+                    this.user = res.data;
+                    this.turnplate_count = res.data.level;
+                }
+            })
         },
         getRecord(){
             this.record_list = [];
@@ -113,6 +133,7 @@ var vvue = new Vue({
                 success: (res) => {
                     console.log(res);
                     let idx = 0;
+                    this.prize_list = res;
                     let list = res.map(item => {
                         return {
                             id: item.id,
@@ -142,6 +163,10 @@ var vvue = new Vue({
         },
         // 点击抽奖事件
         getPrize() {
+            if(this.turnplate_count == 0){
+                vant.Toast('抽奖次数已用完!');
+                return ;
+            }
             if (turnplate.bRotate) return;
             turnplate.bRotate = true;
 

@@ -23,7 +23,7 @@
         <!-- <img class="bg1" src="./images/5019.png_300.png" alt=""> -->
         <div class="login-info">
             欢迎你，
-            <span class="name">张三</span>
+            <span class="name">{{user.userName}}</span>
 
             <span class="log-list" @click="showRecord">我的抽奖记录</span>
         </div>
@@ -62,19 +62,21 @@
                     <span class="name fl">奖品名称</span>
                     <span class="time fl">奖品内容</span>
                 </div>
-
-                <div class="item">
-                    <span class="name">一等奖</span>
-                    <span class="time">小米对开冰箱</span>
+                <!-- <div class="item">
+                    <div class="no-record"></div>
+                </div> -->
+                <div class="item" v-for="item in prize_list">
+                    <span class="name">{{item.shopName}}</span>
+                    <span class="time">{{item.descstr}}</span>
                 </div>
-                <div class="item">
+                <!-- <div class="item">
                     <span class="name">二等奖</span>
                     <span class="time">小米移动电视</span>
                 </div>
                 <div class="item">
                     <span class="name">三等奖</span>
                     <span class="time">888元红包</span>
-                </div>
+                </div> -->
             </div>
             <!-- <p class="hint-item">1. 活动时间：2024年7月1日-2024年8月31日</p>
             <p class="hint-item">2. 活动规则2活动规则2活动规则2</p>
