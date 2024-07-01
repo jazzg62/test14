@@ -121,7 +121,8 @@ var vvue = new Vue({
                 type: 'post',
                 url: host + '/award/api/getRecordList',
                 data: {
-                    uniqueId
+                    uniqueId,
+                    xhr_id: generateUnionID()
                 },
                 dataType: 'json',
                 success: (res) => {
