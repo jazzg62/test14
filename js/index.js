@@ -195,7 +195,7 @@ var vvue = new Vue({
             turnplate.bRotate = true;
 
             $.ajax({
-                type: 'get',
+                type: 'post',
                 url: host + '/award/api/getAwardByUniqueId',
                 data: {
                     uniqueId,
